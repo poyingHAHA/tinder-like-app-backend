@@ -7,6 +7,10 @@ import {
 } from "./partial/partialSchemaForPost.js";
 
 const sharePostSchema = new mongoose.Schema({
+  orderid: {
+    type: mongoose.Types.ObjectId,
+    ref: "Order"
+  },
   itemid: {
     type: mongoose.Types.ObjectId,
     ref: "ProductPost",

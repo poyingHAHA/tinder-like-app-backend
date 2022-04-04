@@ -87,6 +87,7 @@ router.post("/buyer/share", async (req, res) => {
         const post = {
           ...req.body,
           shopid: shopid,
+          orderid: order._id,
           content: req.body.content
         }
         const sharePost = new SharePost(post)
@@ -105,5 +106,29 @@ router.post("/buyer/share", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
+// 獲取sharepost
+router.get("/buyer/share/:buyerid", async(req, res) => {
+  const buyerid = req.params.buyerid;
+  const match = {};
+  const sort = { createdAt: "desc" };
+  try {
+    const buyer = await Buyer.findOne({ _id: buyerid });
+    // console.log(buyer)
+    await buyer.populate({
+      path: "sharePosts",
+      match, // 匹配條件， 沒有就全部
+      options: {
+        limit: parseInt(req.query.limit),
+        skip: parseInt(req.query.skip),
+        sort,
+      },
+    });
+    res.send(buyer.sharePosts);
+  } catch (e) {
+    console.log(e)
+    res.status(500).send("Server Error")
+  }
+})
 
 export default router;
