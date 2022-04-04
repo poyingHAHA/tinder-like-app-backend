@@ -4,30 +4,32 @@ const orderSchema = mongoose.Schema(
   {
     buyerid: {
       type: mongoose.Types.ObjectId,
-      ref: "Buyer"
+      ref: "Buyer",
     },
-    boughtFromPost:{
+    boughtFromPost: {
       type: mongoose.Types.ObjectId,
-      ref: "SharePost"
+      ref: "SharePost",
     },
-    shopid:{
+    shopid: {
       type: mongoose.Types.ObjectId,
-      ref: "Shop"
+      ref: "Shop",
     },
     orderDetails: [
       {
         itemid: {
           type: mongoose.Types.ObjectId,
-          ref: "ProductPost"
+          ref: "ProductPost",
         },
-        amount: {type: Number},  
-        cost: {type: Number}
+        amount: { type: Number },
+        cost: { type: Number },
+        _id: false
       }
-    ]
-  },{
-    timestamps: true
+    ],
+  },
+  {
+    timestamps: true,
   }
-)
+);
 
-const Order = mongoose.model("Order", orderSchema)
-export default Order
+const Order = mongoose.model("Order", orderSchema);
+export default Order;

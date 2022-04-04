@@ -12,7 +12,7 @@ const buyerSchema = new mongoose.Schema(
   {
     role: {
       type: String,
-      default: "buyer"
+      default: "buyer",
     },
     awardcoin: Number,
     account: {
@@ -20,17 +20,17 @@ const buyerSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    email:{
+    email: {
       type: String,
       trim: true,
-      validate(value){
-        if(!validator.isEmail(value)){
-          throw new Error("Email is invalid")
+      validate(value) {
+        if (!validator.isEmail(value)) {
+          throw new Error("Email is invalid");
         }
-      }
+      },
     },
-    name:{
-      type: String
+    name: {
+      type: String,
     },
     password: {
       type: String,
@@ -49,7 +49,7 @@ const buyerSchema = new mongoose.Schema(
       shop: [shopFollowSchema],
       count: {
         type: Number,
-        set: ()=>this.buyer.length+this.shop.length
+        set: () => this.buyer.length + this.shop.length,
       },
     },
     following: {
@@ -57,7 +57,7 @@ const buyerSchema = new mongoose.Schema(
       shop: [shopFollowSchema],
       count: {
         type: Number,
-        set: ()=>this.buyer.length+this.shop.length
+        set: () => this.buyer.length + this.shop.length,
       },
     },
     tinderLike: [tinderItemSchema],
@@ -77,8 +77,8 @@ buyerSchema.virtual("sharePosts", {
 buyerSchema.virtual("orders", {
   ref: "Order",
   localField: "_id",
-  foreignField: "buyerid"
-})
+  foreignField: "buyerid",
+});
 
-const Buyer = mongoose.model('Buyer', buyerSchema)
-export default Buyer
+const Buyer = mongoose.model("Buyer", buyerSchema);
+export default Buyer;

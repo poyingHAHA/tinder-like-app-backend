@@ -19,6 +19,10 @@ const sharePostSchema = new mongoose.Schema({
     type: mongoose.Types.ObjectId,
     ref: "Buyer"
   },
+  shopid: {
+    type: mongoose.Types.ObjectId,
+    ref: "Shop"
+  },
   content: {
     type: String
   },
@@ -59,5 +63,5 @@ sharePostSchema.virtual("order", {
   foreignField: "_id"
 })
 
-const SharePost = mongoose.model("SharePostSchema", sharePostSchema);
+const SharePost = mongoose.model("SharePost", sharePostSchema);
 export default SharePost;

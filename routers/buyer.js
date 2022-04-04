@@ -1,17 +1,109 @@
-import express from 'express'
-import Buyer from '../models/buyer.js'
+import express from "express";
+import Buyer from "../models/buyer.js";
+import Order from "../models/order.js";
+import ProductPost from "../models/productPost.js";
+import SharePost from "../models/sharePost.js";
 
-const router = new express.Router()
+const router = new express.Router();
 
-router.post('/buyer/register',async (req, res) => {
+// 買家註冊
+router.post("/buyer/register", async (req, res) => {
   try {
-    const buyer = new Buyer(req.body)
-    await buyer.save()
+    const buyer = new Buyer(req.body);
+    await buyer.save();
 
-    res.status(201).send(buyer)
+    res.status(201).send(buyer);
   } catch (e) {
-    
+    console.log(e);
+    res.status(500).send("Server Error");
   }
-})
+});
 
-export default router
+// 買家購買商品
+router.post("/buyer/placeOrder", async (req, res) => {
+  try {
+    const order = new Order(req.body);
+    await order.save();
+
+    res.status(201).send(order);
+  } catch (e) {
+    console.log(e);
+    res.status(500).send("Server Error");
+  }
+});
+
+// 獲取單的或多個order，及演示populate的使用方式
+router.get("/buyer/order/:buyerid", async (req, res) => {
+  const buyerid = req.params.buyerid;
+  const match = {};
+  const sort = { createdAt: "desc" };
+
+  try {
+    const buyer = await Buyer.findOne({ _id: buyerid });
+    await buyer.populate({
+      path: "orders",
+      match, // 匹配條件， 沒有就全部
+      options: {
+        limit: parseInt(req.query.limit),
+        skip: parseInt(req.query.skip),
+        sort,
+      },
+    });
+    res.send(buyer.orders);
+  } catch (e) {
+    console.log(e);
+    res.status(500).send("Server Error");
+  }
+});
+
+// 買家分享商品，要在order裡面有才能分享
+router.post("/buyer/share", async (req, res) => {
+  try {
+    const shareItem = req.body.itemid;
+    const shopid = req.body.shopid;
+    const buyerid = req.body.buyerid;
+    // 如果有share過同樣的商品就不能再share了
+    const shared = await SharePost.findOne({itemid: shareItem, buyerid: buyerid, shopid: shopid})
+    if(shared){
+      res.send("You have already shared")
+    }
+
+    const buyer = await Buyer.findOne({ _id: buyerid });
+    await buyer.populate({
+      path: "orders",
+    });
+
+    let noOrder = true;
+    for (let order of buyer.orders){
+      if( order.shopid==shopid && order.orderDetails.some(detail=>detail.itemid==shareItem) ){
+        noOrder = false
+        if(!req.body.content || !req.body.images){
+          const item = await ProductPost.findOne({_id: shareItem})
+          console.log(!req.body.images)
+          req.body.content = req.body.content ? req.body.content : item.content
+          req.body.images = req.body.images ? req.body.images : item.images
+        }
+
+        const post = {
+          ...req.body,
+          shopid: shopid,
+          content: req.body.content
+        }
+        const sharePost = new SharePost(post)
+        await sharePost.save()
+
+        res.send(sharePost);
+      }
+    }
+
+    if(noOrder){
+      res.send("You don't have related order");
+    }
+
+  } catch (e) {
+    console.log(e);
+    res.status(500).send("Server Error");
+  }
+});
+
+export default router;

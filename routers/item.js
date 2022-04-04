@@ -41,6 +41,7 @@ router.get("/items", async (req, res) => {
         const items = await findItems(condition, shopLimit, shopSkip, sort);
         return last.concat(items);
       }, []);
+      
       res.send(itemList);
       return;
     }
