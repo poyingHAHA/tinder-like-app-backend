@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 // const productItemSchema = new mongoose.Schema({
 //   sp_itemid: Number,
@@ -36,4 +36,4 @@ const ratingSchema = new mongoose.Schema(
 })
 
 const Rating = mongoose.model('Rating', ratingSchema)
-export default Rating
+module.exports = Rating

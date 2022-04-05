@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const buyerFollowSchema = new mongoose.Schema({
   buyerid: {
@@ -57,7 +57,7 @@ const tinderItemSchema = new mongoose.Schema(
   }
 );
 
-export {
+module.exports = {
   buyerFollowSchema,
   shopFollowSchema,
   tinderUserSchema,

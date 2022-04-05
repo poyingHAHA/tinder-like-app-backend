@@ -1,12 +1,12 @@
-import mongoose from "mongoose";
-import validator from "validator";
+const mongoose = require("mongoose");
+const validator = require("validator");
 
-import {
+const {
   buyerFollowSchema,
   shopFollowSchema,
   likeItemSchema,
   tinderItemSchema,
-} from "./partial/partialSchema.js";
+} = require("./partial/partialSchema.js");
 
 const buyerSchema = new mongoose.Schema(
   {
@@ -81,4 +81,4 @@ buyerSchema.virtual("orders", {
 });
 
 const Buyer = mongoose.model("Buyer", buyerSchema);
-export default Buyer;
+module.exports = Buyer;

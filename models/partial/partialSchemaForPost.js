@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const labelSchema = new mongoose.Schema(
   {
@@ -51,4 +51,4 @@ const likeSchema = new mongoose.Schema(
   }
 );
 
-export { labelSchema, variationSchema, ratingSchema, likeSchema };
+module.exports = { labelSchema, variationSchema, ratingSchema, likeSchema };

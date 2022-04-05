@@ -1,11 +1,11 @@
-import mongoose from "mongoose";
-import { tinderUserSchema } from "./partial/partialSchema.js";
-import {
+const mongoose = require("mongoose");
+const { tinderUserSchema } = require("./partial/partialSchema.js");
+const {
   labelSchema,
   variationSchema,
   ratingSchema,
   likeSchema,
-} from "./partial/partialSchemaForPost.js";
+} = require("./partial/partialSchemaForPost.js");
 
 const shareSchema = new mongoose.Schema(
   {
@@ -89,4 +89,4 @@ productPostSchema.virtual("sharePosts", {
 });
 
 const ProductPost = mongoose.model("ProductPost", productPostSchema);
-export default ProductPost;
+module.exports = ProductPost;

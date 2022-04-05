@@ -1,5 +1,5 @@
-import express from "express";
-import ProductPost from "../models/productPost.js";
+const express = require("express");
+const ProductPost = require("../models/productPost.js");
 
 const router = new express.Router();
 
@@ -74,4 +74,5 @@ router.get("/items/:id", (req, res) => {
     });
 });
 
-export default router;
+module.exports = router;
+

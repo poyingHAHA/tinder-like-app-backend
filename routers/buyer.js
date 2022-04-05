@@ -1,8 +1,8 @@
-import express from "express";
-import Buyer from "../models/buyer.js";
-import Order from "../models/order.js";
-import ProductPost from "../models/productPost.js";
-import SharePost from "../models/sharePost.js";
+const express = require("express");
+const Buyer = require("../models/buyer.js");
+const Order = require("../models/order.js");
+const ProductPost = require("../models/productPost.js");
+const SharePost = require("../models/sharePost.js");
 
 const router = new express.Router();
 
@@ -18,6 +18,27 @@ router.post("/buyer/register", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
+// Login and get user
+router.post('/buyer/login', async(req, res) => {
+  // console.log("login")
+  const account = req.body.account;
+  const password = req.body.password;
+  try {
+    const buyer = await Buyer.findOne({account, password})
+    if(buyer){
+      res.send(buyer);
+    }else{
+      res.send({
+        msg: "Not exist",
+        success: "false"
+      })
+    }
+  } catch (e) {
+    console.log(e)
+    res.status(500).send("Server Error")
+  }
+})
 
 // 買家購買商品
 router.post("/buyer/placeOrder", async (req, res) => {
@@ -131,4 +152,6 @@ router.get("/buyer/share/:buyerid", async(req, res) => {
   }
 })
 
-export default router;
+
+
+module.exports = router;

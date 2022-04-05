@@ -1,10 +1,10 @@
-import mongoose from "mongoose";
-import {
+const mongoose = require("mongoose");
+const {
   labelSchema,
   variationSchema,
   ratingSchema,
   likeSchema,
-} from "./partial/partialSchemaForPost.js";
+} = require("./partial/partialSchemaForPost.js");
 
 const sharePostSchema = new mongoose.Schema({
   orderid: {
@@ -68,4 +68,4 @@ sharePostSchema.virtual("order", {
 })
 
 const SharePost = mongoose.model("SharePost", sharePostSchema);
-export default SharePost;
+module.exports = SharePost;

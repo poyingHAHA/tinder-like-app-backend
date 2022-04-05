@@ -1,8 +1,8 @@
-import mongoose from "mongoose";
-import {
+const mongoose = require("mongoose");
+const {
   buyerFollowSchema,
   shopFollowSchema,
-} from "./partial/partialSchema.js";
+} = require("./partial/partialSchema.js");
 
 
 const shopSchema = new mongoose.Schema(
@@ -65,4 +65,4 @@ const shopSchema = new mongoose.Schema(
 );
 
 const Shop = mongoose.model("Shop", shopSchema);
-export default Shop;
+module.exports = Shop;

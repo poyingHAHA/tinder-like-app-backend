@@ -1,5 +1,5 @@
-import express from "express";
-import Shop from "../models/shop.js";
+const express = require("express");
+const Shop = require("../models/shop.js");
 
 const router = new express.Router()
 
@@ -34,4 +34,4 @@ router.patch('/shop/:id', async(req, res) => {
 })
 
 
-export default router 
+module.exports = router 

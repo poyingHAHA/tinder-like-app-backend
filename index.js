@@ -1,8 +1,9 @@
-import express from "express"
-import "./db/tinder_app_db.js"
-import productPostRouter from './routers/item.js'
-import shopRouter from './routers/shop.js'
-import buyerRouter from './routers/buyer.js'
+const express =require( "express")
+require ("./db/tinder_app_db.js")
+const productPostRouter =require( './routers/item.js')
+const shopRouter =require( './routers/shop.js')
+const buyerRouter =require( './routers/buyer.js')
+const cors = require('cors')
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -17,4 +18,4 @@ app.listen(port, () => {
   console.log("Server is up on port " + port);
 });
 
-
+module.exports = app;
