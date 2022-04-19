@@ -18,10 +18,11 @@ router.get('/shop/:id', async (req, res) => {
 router.patch('/shop/:id', async(req, res) => {
   const shopid = req.params.id
   const updates = Object.keys(req.body)
+  
   console.log(updates)
   try {
     let shop = await Shop.findOne({_id: shopid})
-    console.log(shop)
+    // console.log(shop)
     updates.forEach((update) => {
       shop[update] = req.body[update]
     })
