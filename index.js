@@ -9,6 +9,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // automatically parse incoming JSON into JS object which you can access on req.body
+app.use(cors());
 app.use(express.json());
 app.use(productPostRouter)
 app.use(shopRouter)
